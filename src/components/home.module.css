@@ -1,0 +1,11 @@
+.listContainer {
+  max-width: 70%;
+}
+
+.searchBar {
+  width: 50vw;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 25px;
+  border: solid #1990fe 1px;
+}

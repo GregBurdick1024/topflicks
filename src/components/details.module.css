@@ -1,0 +1,12 @@
+.tooltip {
+  z-index: 1;
+}
+
+.filmDetails {
+  display: flex;
+  opacity: 0.8;
+  color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+}
