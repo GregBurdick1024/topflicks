@@ -34,6 +34,12 @@ export const initializeDirector = (id) => {
     }
 }
 
+export const clearFilm = () => {
+    return dispatch => {
+        dispatch(setFilm())
+    }
+}
+
 export const initializeFilm = (id) => {
     return async dispatch => {
         const f = await filmService.getFilm(id)

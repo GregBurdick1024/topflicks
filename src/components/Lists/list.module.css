@@ -1,0 +1,27 @@
+.listItem {
+  margin: 0.6rem;
+  display: flex;
+  max-width: 950px;
+  border: 1px solid rgb(173, 170, 170);
+  border-left: none;
+  border-radius: 5px;
+
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.poster {
+  border-radius: 5px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.textbox {
+  display: block;
+  margin: 0 1rem;
+}

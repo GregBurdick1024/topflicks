@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import filmReducer from './reducers/filmReducer'
+import filmReducer from './components/reducers/filmReducer'
+import userReducer from './components/reducers/userReducer';
 
 const store = configureStore({
     reducer: {
-        films: filmReducer
+        films: filmReducer,
+        user: userReducer
     }
 })
 

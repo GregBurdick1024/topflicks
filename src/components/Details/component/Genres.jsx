@@ -1,4 +1,4 @@
-import React from 'react'
+import styles from './genres.module.css'
 
 const Genres = ({ genres }) => {
   if (genres) {

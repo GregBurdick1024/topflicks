@@ -2,13 +2,13 @@ import Carousel from "antd"
 import { Link } from 'react-router-dom'
 import styles from "./carosel.module.css"
 import { useDispatch } from "react-redux"
-import { initializeFilm } from "../reducers/filmReducer"
+import { clearFilm, initializeFilm } from "../reducers/filmReducer"
 
 const Film = ({ title, voteAvg, release, poster, id }) => {
     const dispatch = useDispatch()
 
 	const handleClick = (id) => {
-		
+		dispatch(clearFilm())
 		dispatch(initializeFilm(id))
 	}
   
