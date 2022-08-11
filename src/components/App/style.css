@@ -1,24 +1,7 @@
 @import '~antd/dist/antd.css';
 
 .App {
-
-}
-
-
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-family: 'Roboto', sans-serif;
 }
 
 .App-link {
@@ -29,5 +12,5 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  min-height: 80vh;
 }

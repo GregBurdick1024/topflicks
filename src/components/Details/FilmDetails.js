@@ -6,7 +6,8 @@ import { TagOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/ic
 //import userService from "../services/userService"
 import styles from './details.module.css'
 import { useDispatch, useSelector } from "react-redux"
-import { initializeFilm } from "../reducers/filmReducer"
+import { initializeDirector, initializeFilm } from "../reducers/filmReducer"
+import { postFavourite } from "../reducers/userReducer"
 const { Content } = Layout
 
 
@@ -14,31 +15,38 @@ const { Content } = Layout
 const FilmDetails = () => {
 	const location = useLocation()
 	const dispatch = useDispatch()
-
-	let director = true
-	let user = useSelector(({ user }) => user)
-
-
+	let filmId = location.pathname.substring(6)
 	
-	const handleTagFilm = () => {
+	const user = useSelector(({ user }) => user)
+	const film = useSelector(({ films }) => films.data)
 
+	//gets film id from path and populates film data
+	useEffect(() => {
+		
+		if(!film) {
+			dispatch(initializeFilm(filmId))
+			dispatch(initializeDirector(filmId))
+		}
+	}, [])
+
+
+
+	const handleAddFav = () => {
+		let id = user.details.id
+		console.log(film)
+		dispatch(postFavourite(film, id))
 	}
 
 	const handleRating = () => {
 
 	}
 
-	const film = useSelector(({ films }) => films.data)
+	
 	
 
-	//gets film id from path and populates film data
-	useEffect(() => {
-		let id = location.pathname.substring(6)
-		
-		if(!film) dispatch(initializeFilm(id))
-	}, [])
+	
 
-	useEffect(() => {
+	// useEffect(() => {
 
 	// const handleTagFilm = (watched) => {
 	//   userService.addFavorite(film, director, watched)
@@ -46,18 +54,18 @@ const FilmDetails = () => {
 
 	// const handleRating = (e) => {
 
-	}, [])
+	// }, [])
 
-	const watchMenu = (
-	<Menu>
-		<Menu.Item onClick={() => handleTagFilm(0)}>
-		Want to Watch
-		</Menu.Item>
-		<Menu.Item onClick={() => handleTagFilm(1)}>
-		Watched
-		</Menu.Item>
-	</Menu>
-	)
+	// const watchMenu = (
+	// <Menu>
+	// 	<Menu.Item onClick={() => handleTagFilm(0)}>
+	// 	Want to Watch
+	// 	</Menu.Item>
+	// 	<Menu.Item onClick={() => handleTagFilm(1)}>
+	// 	Watched
+	// 	</Menu.Item>
+	// </Menu>
+	// )
 
 	const listMenu = (
 	<Menu>
@@ -75,19 +83,16 @@ const FilmDetails = () => {
 	return (
 		film ? 
 			<Content>
-				<div className={styles.filmDetails}>
-					<div 
-						className={styles.backgroundPoster} 
-						style={
-							{ 
-								backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${film.backdrop_path})`,
-								backgroundRepeat: `no-repeat`,
-  								backgroundSize: `cover`,
-					 		}
-						}>
-					</div>	
+					<div className={styles.filmDetails}>
+				<div className={styles.backgroundPoster} 
+					style={
+						{ 
+							backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${film.backdrop_path})`,
+						}
+				}>
+				</div>
 					<div className={styles.posterContainer}>
-						<img className={styles.poster} src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`} />
+						<img className={styles.poster} src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${film.poster_path}`} />
 					</div>
 					<div className={styles.textContainer}>
 						<div className={styles.titleYear}>
@@ -95,11 +100,9 @@ const FilmDetails = () => {
 							<h3>({film.release_date.substring(0,4)})</h3>
 						</div>
 						<div className={styles.buttonsContainer}>
-							<Dropdown trigger={['click']} overlay={watchMenu}>
-								<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Tag ${film.title}` : 'Log in to Tag film'} color='blue'>
-									<Button className={styles.button}><TagOutlined /></Button>
-								</Tooltip>
-							</Dropdown>
+							<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Tag ${film.title}` : 'Log in to Star film'} color='blue'>
+								<Button className={styles.button} onClick={handleAddFav}><StarOutlined /></Button>
+							</Tooltip>
 							<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Rate ${film.title}` : 'Log in to rate film'} color='blue'>
 								<Button className={styles.button} disabled={user ? false : true} onClick={handleRating}><StarOutlined /></Button>
 							</Tooltip>
@@ -110,7 +113,9 @@ const FilmDetails = () => {
 							</Dropdown>
 						</div>
 						<Genres genres={film.genres} />
-						<h3>{film.director}</h3>
+						{film.director ? 
+							<h3>{film.director}</h3>
+						: <h3>Unknown Director</h3>}
 						<p>{film.vote_average}</p>
 						<p>{film.vote_count}</p>
 						<h3>{film.tagline}</h3>
@@ -118,8 +123,8 @@ const FilmDetails = () => {
 							<h2 className={styles.overviewTitle}>Overview</h2>
 							<p>{film.overview}</p>
 						</div>
-					</div>		
-				</div>
+					</div>
+				</div>		
 			</Content > 
 		: null
 	)

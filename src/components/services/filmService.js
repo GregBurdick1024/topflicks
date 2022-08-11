@@ -30,7 +30,7 @@ const searchFilm = async (search) => {
 }
 
 const getFilm = async (id) => {
-    const res = await axios.get(`${baseUrl}/film/${id}`)
+    const res = await axios.get(`${baseUrl}/${id}`)
     return res.data
 }
 

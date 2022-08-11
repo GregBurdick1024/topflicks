@@ -1,12 +1,27 @@
 
 .logo {
-  width: 120px;
-  height: 30px;
+  width: 140px;
+  height: 35px;
   background: rgba(255, 255, 255, 0.2);
-  color: aliceblue;
+  color: #1890FF;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 16px 24px 16px 0;
+  margin: 16px 24px;
+  border-radius: 2px;
+  font-size: 1.4rem;
   float: left;
+  font-weight: 700;
+}
+
+.menu {
+  justify-content: flex-end;
+}
+
+.icon {
+  z-index: 15;
+}
+.App {
+  opacity: 1;
+  z-index: 1;
 }

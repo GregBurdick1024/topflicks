@@ -1,17 +1,18 @@
-import styles from './list.module.css'
-import { Link } from 'react-router-dom'
+import styles from './table.module.css'
+import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteFavourite } from '../reducers/userReducer'
 
-const Film = () => {
-
-
-	const handleRemove = async () => {
-
+const Film = ({ id, title, release, director, vote, rating, watched, poster}) => {
+	let dispatch = useDispatch()
+	const user = useSelector(({ user }) => user.details)
+	const handleRemoveFav = () => {
+		dispatch(deleteFavourite(id, user.id))
 	}
 
-	//const year = release.substring(0, 4)
+	const year = release.substring(0, 4)
 	return (
 	<tr>
 		<td>
@@ -24,14 +25,15 @@ const Film = () => {
 		</td>
 		<td>
 		<h1>{title}</h1>
-		<p>{tagline}</p>
+		<h4>({year})</h4>
+		<span className={styles.director}></span>Directed by: {director}
 		</td>
-		<td><h2>{year}</h2></td>
-		<td>{director}</td>
+		<td></td>
+		
 		<td>{vote}</td>
 		<td><h3>{rating}</h3></td>
 		<td><p>{watched ? 'Seen' : 'Want to See'}</p></td>
-		<td><Button onClick={handleRemove}><CloseOutlined /></Button></td>
+		<td><Button onClick={handleRemoveFav}><CloseOutlined /></Button></td>
 	</tr>
 	)
 }
@@ -39,17 +41,27 @@ const Film = () => {
 const TaggedTable = () => {
 
 	const favourites = useSelector(({ user }) => user.favourites)
-
+	console.log(favourites)
 	return (
-	<table>
-		<tbody>
-		{
-			favourites.map(d =>
-			<Film key={d.film_id} vote={d.vote_average} director={d.director} poster={d.poster_path} title={d.title} tagline={d.tagline} watched={d.watched} rating={d.rating} id={d.md_id} release={d.release_date} />
-			)
-		}
-		</tbody>
-	</table>
+		favourites[0] ?
+		<table className={styles.table}>
+			<tbody>
+				{favourites.map(d =>
+					<Film 
+						key={d.id} 
+						vote={d.voteAverage} 
+						director={d.director} 
+						poster={d.posterPath} 
+						title={d.title} 
+						watched={d.watched} 
+						rating={d.rating}
+						release={d.releaseDate} 
+						id={d.id}  
+					/>
+				)}
+			</tbody>
+		</table>
+		: <h4>No favourites, Star a film to add it to this list. </h4> 
 	)
 }
 

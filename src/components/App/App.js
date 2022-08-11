@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { Layout, Menu, Button, Dropdown } from 'antd'
+import { Layout, Menu, Button, Dropdown, Breadcrumb } from 'antd'
 import './style.css';
 import HomePage from '../Homepage/HomePage'
 import FilmDetails from '../Details/FilmDetails';
 import Login from '../Login/Login'
+import MyFilms from '../MyFilms/MyFilms'
 import { UserOutlined } from '@ant-design/icons'
 import {
 	Route,
@@ -14,11 +15,10 @@ import {
 } from 'react-router-dom'
 import styles from './app.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import userService from '../services/userService';
-import { setUser, logout } from '../reducers/userReducer';
+import { logout, initialiseUser } from '../reducers/userReducer';
 
 
-const { Header, Footer, Content, Sider } = Layout
+const { Header, Footer } = Layout
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -28,8 +28,8 @@ const App = () => {
 		const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
 		if (loggedUserJSON) {
 			const user = JSON.parse(loggedUserJSON)
-			dispatch(setUser(user))
-			userService.setToken(user.token)
+			dispatch(initialiseUser(user))
+			
 		}
 	  }, [])
 
@@ -42,48 +42,45 @@ const App = () => {
   
 	const menu = (
 	<Menu>
-		<Menu.Item key='0'>
-		{/* <Link to={`/toplists/${user.id}/${user.username}`}>Top Lists</Link> */}
-		</Menu.Item>
-		<Menu.Item key='1'>
-		{/* <Link to={`/myfilms/${user.id}/${user.username}`}>My Films</Link> */}
-		</Menu.Item>
-		<Menu.Divider />
-		<Menu.Item key='3'onClick={handleLogOut}>Log out</Menu.Item>
+		<Menu.Item key='1'onClick={handleLogOut}>Log out</Menu.Item>
 	</Menu>
 	)
   
   
   
 	return (
-	<div className="App">
+	<Layout className="App">
 		<Header>
-		{<Link to='/'>
 			<div className={styles.logo}>TopFlicks</div>
-		</Link>}
-		<Menu theme='dark' mode='horizontal' defaultSelectedKeys={['1']}>
-			<Menu.Item key='1'>
-			{user ? null : <Link to='/login'>Login</Link>}
-			</Menu.Item>
-			<Menu.Item key='2'>
-			{user ? (
-				<Dropdown.Button
-				icon={<UserOutlined />}
-				overlay={menu}
-				trigger={['click']}
-				>
-				<Link className='ant-dropdown-link' to=''>
-					{user.username}
-				</Link>
-				</Dropdown.Button>
-			) : null}
-			</Menu.Item>
-			<Menu.Item key='3'></Menu.Item>
-		</Menu>
+			<Menu theme='dark' mode='horizontal' defaultSelectedKeys={['0']}className={styles.menu}>
+				<Menu.Item className={styles.menuItem}key='3'>
+					{user ? <Link to={`/myfilms/${user.id}/${user.username}`}>My Favourites</Link> : null}
+				</Menu.Item>
+          		
+          		<Menu.Item key='2'>
+            		{user ? (
+              			<Dropdown.Button
+							icon={<UserOutlined className={styles.icon}/>}
+							trigger={['click']}
+							overlay={menu}
+						>
+							<Link className='ant-dropdown-link' to='/'>
+								{user.username}
+							</Link>
+              			</Dropdown.Button>
+            		) : 
+					<Dropdown.Button
+						icon={<UserOutlined />}
+						trigger={['click']}
+					>
+						<Link to='/login'>Login</Link>
+              		</Dropdown.Button>}
+          		</Menu.Item>
+        	</Menu>
 		</Header>
 		<Routes>
 			{/*<Route path='/newlist' children={<NewListPage />} /> */}
-			{/* <Route path='/myfilms/:id/:user' children={<MyFilmsPage favorites={favorites} user={user} />} /> */}
+			<Route path='/myfilms/:id/:user' element={<MyFilms />} />
 			<Route
 				path='/login'
 				element={
@@ -99,7 +96,7 @@ const App = () => {
 			<Route path='/' element={<HomePage />} />
 		</Routes>
 		<Footer>Footer</Footer>
-	</div>
+	</Layout>
 	);
 }
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3010/api/users'
+const baseUrl = 'http://localhost:3010/api/user'
 
 let token = null
 
@@ -7,15 +7,12 @@ const setToken = newToken => {
 	token = `bearer ${newToken}`
 }
 
-const getFavorites = async (data) => {
+const getFavourites = async (id) => {
 	const config =
 	{
 		headers: { Authorization: token },
 	}
-
-	const id = data.id
-	const username = data.username
-	const res = await axios.get(`${baseUrl}/favourites/${id}${username}`, config)
+	const res = await axios.get(`${baseUrl}/favourites/${id}`, config)
 	return res.data
 }
 
@@ -31,7 +28,7 @@ const getFavorites = async (data) => {
 //   return res.data
 // }
 
-const addFavorite = async (id, director) => {
+const postFavourite = async (film, user) => {
   const config =
   {
     headers: { Authorization: token },
@@ -39,21 +36,22 @@ const addFavorite = async (id, director) => {
 
   const filmObj =
   {
-    md_id: id,
-	director: director.name,
-	watched: false
+    ...film,
+	  watched: false,
+    
   }
-  const res = await axios.post(`${baseUrl}/favorites`, filmObj, config)
+  const res = await axios.post(`${baseUrl}/favourites/${user}`, filmObj, config)
   return res.data
 }
 
-const removeFavorite = async (id) => {
+const removeFavourite = async (id) => {
   const config =
   {
     headers: { Authorization: token },
   }
-
-  const res = await axios.delete(`${baseUrl}/favorites/${id}`, config)
+  
+  const res = await axios.delete(`${baseUrl}/favourites/${id}`, config)
+  return res.data
 }
 
 const rateFilm = async (id) => {
@@ -61,7 +59,7 @@ const rateFilm = async (id) => {
   {
     headers: { Authorization: token },
   }
-  const res = await axios.post(`${baseUrl}/favorites/update`, config)
+  const res = await axios.post(`${baseUrl}/favourites/update`, config)
 }
 
 // const addTopList = async (details) => {
@@ -92,9 +90,9 @@ const rateFilm = async (id) => {
 // }
 
 export default {
-	getFavorites,
+	getFavourites,
 	setToken,
-	addFavorite,
-	removeFavorite,
+	postFavourite,
+	removeFavourite,
 	rateFilm
 }

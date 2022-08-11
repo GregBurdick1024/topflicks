@@ -30,7 +30,7 @@ export const initializeDirector = (id) => {
     return async dispatch => {
         const data = await filmService.getCredits(id)
         const director = data.crew.find(c => c.job === 'Director')
-        setDirector(director)
+       dispatch(setDirector(director.name))
     }
 }
 

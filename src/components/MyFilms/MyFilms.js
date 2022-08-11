@@ -5,7 +5,7 @@ const { Content } = Layout
 const MyFilmsPage = () => {
 
   return (
-	<Content>
+	<Content className='container'>
 		<h1>My Films</h1>
 		<TaggedTable/>
 	</Content>

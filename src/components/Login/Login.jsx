@@ -3,7 +3,7 @@ import { Button, Input, Form, Checkbox } from 'antd'
 import styles from './login.module.css'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../reducers/userReducer';
+import { login } from '../reducers/userReducer';
 import { useEffect } from 'react';
 
 const Login = ({ setUser, setErrorMessage }) => {
@@ -16,20 +16,11 @@ const Login = ({ setUser, setErrorMessage }) => {
 	}
 
 	const dispatch = useDispatch()
-	const user = useSelector(({ user }) => user.details)
 	
-	useEffect(() => {
-		if(user){
-			
-		}
-	}, [user])
-	
-	
-
 
 	const onFinish = async (values) => {
 	try {
-		dispatch(getUser(values))
+		dispatch(login(values))
 
 	} catch (exception) {
 		setErrorMessage('Wrong credentials')

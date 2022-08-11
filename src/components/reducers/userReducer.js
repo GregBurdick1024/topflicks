@@ -9,19 +9,33 @@ initialState: {},
         setFavourites(state, action){
             state.favourites = action.payload
         },
+        addFavourite(state, action){
+            state.favourites.push(action.payload)
+        },
         setUser(state, action){
+            
             state.details = action.payload
         }
     }
 })
 
-export const getUser = (values) => {
+export const login = (values) => {
     return async dispatch => {
         const user = await loginService.login(values)
         dispatch(setUser(user))
         window.localStorage.setItem(
 			'loggedAppUser', JSON.stringify(user)
 			)
+        userService.setToken(user.token)
+    }
+}
+
+export const initialiseUser = (user) => {
+    return async dispatch => {
+        userService.setToken(user.token)
+        const favs = await userService.getFavourites(user.id)
+        dispatch(setFavourites(favs))
+        dispatch(setUser(user))
     }
 }
 
@@ -31,20 +45,23 @@ export const logout = () => {
     }
 }
 
-export const initialiseFavourites = (data) => {
+export const deleteFavourite = (filmId, userId) => {
     return async dispatch => {
-        const favs = await userService.getFavourites(data)
+        await userService.removeFavourite(filmId)
+        const favs = await userService.getFavourites(userId)
         dispatch(setFavourites(favs))
     }
 }
 
-export const addFavourite = (id) => {
+
+export const postFavourite = (film, id) => {
     return async dispatch => {
-        const newFavs = await userService.addFavourite(id)
-        dispatch(setFavourites(newFavs))
+        const newFav = await userService.postFavourite(film, id)
+        dispatch(addFavourite(newFav))
     }
 }
 
-export const { setFavourites, setUser } = userSlice.actions
+export const { setFavourites, setUser, addFavourite } = userSlice.actions
 
 export default userSlice.reducer
+
