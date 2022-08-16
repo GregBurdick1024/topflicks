@@ -16,6 +16,7 @@ import {
 import styles from './app.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, initialiseUser } from '../reducers/userReducer';
+import TestTable from '../Test';
 
 
 const { Header, Footer } = Layout
@@ -64,9 +65,7 @@ const App = () => {
 							trigger={['click']}
 							overlay={menu}
 						>
-							<Link className='ant-dropdown-link' to='/'>
-								{user.username}
-							</Link>
+							{user.username}
               			</Dropdown.Button>
             		) : 
 					<Dropdown.Button
@@ -79,7 +78,7 @@ const App = () => {
         	</Menu>
 		</Header>
 		<Routes>
-			{/*<Route path='/newlist' children={<NewListPage />} /> */}
+			<Route path='/newlist' element={<TestTable />} />
 			<Route path='/myfilms/:id/:user' element={<MyFilms />} />
 			<Route
 				path='/login'

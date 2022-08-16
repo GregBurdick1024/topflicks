@@ -10,7 +10,7 @@ const { Search } = Input
 const { Content } = Layout
 
 
-const HomePage = ({ handleFilmClick, setSearchResults }) => {
+const HomePage = () => {
 
   const dispatch = useDispatch()
   
@@ -31,17 +31,19 @@ const HomePage = ({ handleFilmClick, setSearchResults }) => {
   // }
 
   return (
-    <Content className="container">
-      <Search
-        placeholder="Search for film"
-        // onSearch={(value) => handleSearch(value)}
-        className={styles.searchBar}
-      />
-      <div className={styles.listContainer}>
-        <h3>What's Popular</h3>
-        <FilmsCarosel films={popular} />
-        <h3>Upcoming</h3>
-        <FilmsCarosel films={upcoming} />
+    <Content>
+      <div className="container">
+        <Search
+          placeholder="Search for film"
+          // onSearch={(value) => handleSearch(value)}
+          className={styles.searchBar}
+        />
+        <div className={styles.listContainer}>
+          <h3 className={styles.title}>What's Popular</h3>
+          <FilmsCarosel films={popular} />
+          <h3 className={styles.title}>Upcoming</h3>
+          <FilmsCarosel films={upcoming} />
+        </div>
       </div>
     </Content>
   )

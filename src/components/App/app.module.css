@@ -2,7 +2,7 @@
 .logo {
   width: 140px;
   height: 35px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.842);
   color: #1890FF;
   display: flex;
   align-items: center;
@@ -20,8 +20,4 @@
 
 .icon {
   z-index: 15;
-}
-.App {
-  opacity: 1;
-  z-index: 1;
 }

@@ -3,14 +3,14 @@ import styles from './genres.module.css'
 const Genres = ({ genres }) => {
   if (genres) {
     return (
-      <ul>
+      <div className={styles.genres}>
         {genres.map(g =>
-          <li key={g.id}>{g.name}</li>
+          <div className={styles.genre} key={g.id}>{g.name}</div>
         )}
-      </ul>
+      </div>
     )
   } else {
-    return <div></div>
+    return null
   }
 }
 

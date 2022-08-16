@@ -9,12 +9,13 @@
 
 .filmDetails {
   display: flex;
-  background-image: linear-gradient(to right, #000e30d0 150px, #598abe80 100%);
-  
+  color: aliceblue;
+  background-image: linear-gradient(to right, #131d36 800px, #598abe77 100%);
+  height: 800px;
 }
 
 .posterContainer {
-  padding: 80px;
+  padding: 10vh 5vw;
   z-index: 15;
 }
 
@@ -29,14 +30,38 @@
   flex-direction: column;
   align-items: flex-start;
   z-index: 10;
+  
 }
 
 .titleYear {
   display: flex;
   flex-direction: row;
   width: 100%;
-  font-size: 1.6em;
-  align-items: baseline;
+  align-items: center;
+  color: aliceblue;
+}
+
+#title {
+  font-weight: 700;
+  font-size: 3rem;
+  margin-right: 1vmax;
+  margin-bottom: 0;
+}
+
+#tagline {
+ font-size: 1.2rem;
+ font-style: italic;
+ font-weight: 300;
+}
+
+#release {
+  font-size: 2rem;
+  margin-bottom: 0;
+
+}
+
+.textStyle {
+  color: aliceblue;
 }
 
 .backgroundPoster {
@@ -44,20 +69,22 @@
 	background-size: cover;
   position: absolute;
   margin-top: 50px;
-  height: 500px;
-  min-height: 50vh;
+  height: 60vh;
+  min-height: 580px;
   width: 100vw;
-  opacity: 0.25;
+  opacity: 0.2;
 }
 
 .overviewContainer {
   display: flex;
   flex-direction: column;
   text-align: left;
+  max-width: 550px;
 }
 
 .overviewTitle {
   font-weight: 700;
+  color: aliceblue;
 }
 
 .buttonsContainer {

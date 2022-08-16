@@ -1,13 +1,17 @@
 import { Layout } from 'antd'
-import TaggedTable from '../Lists/TaggedTable'
+import Favourites from '../Lists/Favourites'
+import styles from './myFilms.module.css'
+
 
 const { Content } = Layout
 const MyFilmsPage = () => {
 
   return (
-	<Content className='container'>
-		<h1>My Films</h1>
-		<TaggedTable/>
+	<Content>
+		<div className={styles.container}>
+			<h1>My Films</h1>
+			<Favourites/>
+		</div>
 	</Content>
   )
 }

@@ -8,6 +8,12 @@
 
 }
 
+.firstColumn {
+  width: fit-content;
+  min-width: 200px;
+  margin-top: 20px;
+}
+
 .list {
   display: flex;
   flex-direction: column;
@@ -20,10 +26,20 @@
 
 .title {
   font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0;
 }
 
 
 .textbox {
   display: block;
   margin: 0 1rem;
+}
+
+
+.emptyTable {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

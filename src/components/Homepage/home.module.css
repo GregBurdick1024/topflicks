@@ -5,11 +5,12 @@
 .searchBar {
   width: 50vw;
   padding: 10px;
-  margin: 10px;
+  margin: 50px 10px;
   border-radius: 25px;
-  border: solid #1990fe 1px;
+  border: solid #1990fe 2px;
 }
 
-h3 {
-  font-size: 1.4rem;
+.title {
+  font-size: 1.9rem;
+  font-weight: 700;
 }

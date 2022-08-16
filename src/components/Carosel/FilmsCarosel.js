@@ -1,8 +1,8 @@
-import Carousel from "antd"
 import { Link } from 'react-router-dom'
 import styles from "./carosel.module.css"
 import { useDispatch } from "react-redux"
 import { clearFilm, initializeDirector, initializeFilm } from "../reducers/filmReducer"
+import userReducer from "../reducers/userReducer"
 
 const Film = ({ title, voteAvg, release, poster, id }) => {
     const dispatch = useDispatch()
@@ -15,15 +15,14 @@ const Film = ({ title, voteAvg, release, poster, id }) => {
 		dispatch(initializeDirector(id))
 	}
   
-
-  
   return (
-	<div className={styles.film} onClick={() => handleClick(id)}>
+	<div className={styles.film}>
+		<Link to={`/film/${id}`} onClick={() => handleClick(id)}>
 		<img
 			className={styles.poster}
 			src={`http://image.tmdb.org/t/p/w154/${poster}`}
 		/>
-		
+		</Link>
 		<p className={styles.rating}>{voteAvg}</p>
 		<h3 className={styles.title}>{title}</h3>
 		<p className={styles.release}>({year})</p>
@@ -33,27 +32,18 @@ const Film = ({ title, voteAvg, release, poster, id }) => {
   
 const FilmsCarosel = ({ films }) => {
 
-	
-
-	
-
-
 	if (films && films.length) {
 		return (
 			<div className={styles.carosel}>
-				
 				{films.map((f) => (
-				<Link key={f.id} to={`/film/${f.id}`}>
 				<Film
-
+					key={f.id}
 					id={f.id}
 					title={f.title}
 					voteAvg={f.vote_average}
 					release={f.release_date}
-					poster={f.poster_path}
-					
+					poster={f.poster_path}	
 				/>
-				</Link>
 				))}
 			</div>
 		)

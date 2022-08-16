@@ -7,10 +7,14 @@ const userSlice = createSlice({
 initialState: {},
     reducers: {
         setFavourites(state, action){
-            state.favourites = action.payload
+            if(action.payload.length){
+                state.favourites = action.payload
+            } else {
+                state.favourites = null
+            }
         },
         addFavourite(state, action){
-            state.favourites.push(action.payload)
+            state.favourites ? state.favourites.push(action.payload) : state.favourites = [action.payload]
         },
         setUser(state, action){
             

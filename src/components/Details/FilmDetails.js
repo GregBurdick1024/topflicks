@@ -1,16 +1,13 @@
 import { useEffect } from "react"
-import { Layout, Button, Dropdown, Menu, Tooltip } from "antd"
-import { Link, useParams, useLocation } from 'react-router-dom'
+import { Layout, Button, Dropdown, Menu, Tooltip, Image } from "antd"
+import { Link, useLocation } from 'react-router-dom'
 import Genres from './component/Genres'
-import { TagOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons'
-//import userService from "../services/userService"
+import { HeartFilled, 	HeartOutlined, UnorderedListOutlined } from '@ant-design/icons'
 import styles from './details.module.css'
 import { useDispatch, useSelector } from "react-redux"
 import { initializeDirector, initializeFilm } from "../reducers/filmReducer"
-import { postFavourite } from "../reducers/userReducer"
+import { postFavourite, deleteFavourite } from "../reducers/userReducer"
 const { Content } = Layout
-
-
 
 const FilmDetails = () => {
 	const location = useLocation()
@@ -28,33 +25,35 @@ const FilmDetails = () => {
 			dispatch(initializeDirector(filmId))
 		}
 	}, [])
-
-
+	
+	const isFav = () => {
+		let isFav = false
+		user.favourites.forEach(f => {
+			if(f.filmId === film.film_id){
+				isFav = true
+			}
+				
+		})
+		
+		return isFav
+	}
 
 	const handleAddFav = () => {
 		let id = user.details.id
-		console.log(film)
 		dispatch(postFavourite(film, id))
 	}
+	const handleRemoveFav = () => {
+		let id = user.details.id
+		dispatch(deleteFavourite(filmId, id))
+		console.log()
+	}
 
+	
+
+	
 	const handleRating = () => {
 
 	}
-
-	
-	
-
-	
-
-	// useEffect(() => {
-
-	// const handleTagFilm = (watched) => {
-	//   userService.addFavorite(film, director, watched)
-	// }
-
-	// const handleRating = (e) => {
-
-	// }, [])
 
 	// const watchMenu = (
 	// <Menu>
@@ -66,7 +65,7 @@ const FilmDetails = () => {
 	// 	</Menu.Item>
 	// </Menu>
 	// )
-
+	
 	const listMenu = (
 	<Menu>
 		<Menu.Item>
@@ -80,10 +79,9 @@ const FilmDetails = () => {
 	</Menu>
 	)
 
-	return (
-		film ? 
-			<Content>
-					<div className={styles.filmDetails}>
+	return (film && user ? 
+		<Content>
+			<div className={styles.filmDetails}>
 				<div className={styles.backgroundPoster} 
 					style={
 						{ 
@@ -91,43 +89,43 @@ const FilmDetails = () => {
 						}
 				}>
 				</div>
-					<div className={styles.posterContainer}>
-						<img className={styles.poster} src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${film.poster_path}`} />
+				<div className={styles.posterContainer}>
+					<Image className={styles.poster} src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${film.poster_path}`} />
+				</div>
+				<div className={styles.textContainer}>
+					<div className={styles.titleYear}>
+						<h1 id={styles.title} className={styles.textStyle}>{film.title}</h1>
+						<h3 id={styles.release}className={styles.textStyle}>({film.release_date ? film.release_date.substring(0,4) : null})</h3>
 					</div>
-					<div className={styles.textContainer}>
-						<div className={styles.titleYear}>
-							<h1 id={styles.filmTitle}>{film.title}</h1>
-							<h3>({film.release_date.substring(0,4)})</h3>
-						</div>
-						<div className={styles.buttonsContainer}>
-							<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Tag ${film.title}` : 'Log in to Star film'} color='blue'>
-								<Button className={styles.button} onClick={handleAddFav}><StarOutlined /></Button>
+					<h3 id={styles.tagline}className={styles.textStyle}>{film.tagline}</h3>
+					<div className={styles.buttonsContainer}>
+						{user.favourites && isFav() ? <Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? null : 'Log in to add film'} color='blue'>
+							<Button className={styles.button} onClick={handleRemoveFav}><HeartFilled /></Button> 
+						</Tooltip> : <Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Add to favourites` : 'Log in to add film'} color='blue'>
+							<Button className={styles.button} onClick={handleAddFav}><HeartOutlined /></Button> 
+						</Tooltip>}
+						<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Rate ${film.title}` : 'Log in to rate film'} color='blue'>
+							<Button className={styles.button} disabled={user ? false : true} onClick={handleRating}><HeartOutlined/></Button>
+						</Tooltip>
+						<Dropdown trigger={['click']} overlay={listMenu}>
+							<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Add to list or create new list` : 'Log in to create lists'} color='blue'>
+								<Button className={styles.button} disabled={user ? false : true} ><UnorderedListOutlined /></Button>
 							</Tooltip>
-							<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Rate ${film.title}` : 'Log in to rate film'} color='blue'>
-								<Button className={styles.button} disabled={user ? false : true} onClick={handleRating}><StarOutlined /></Button>
-							</Tooltip>
-							<Dropdown trigger={['click']} overlay={listMenu}>
-								<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Add to list or create new list` : 'Log in to create lists'} color='blue'>
-									<Button className={styles.button} disabled={user ? false : true} ><UnorderedListOutlined /></Button>
-								</Tooltip>
-							</Dropdown>
-						</div>
-						<Genres genres={film.genres} />
-						{film.director ? 
-							<h3>{film.director}</h3>
-						: <h3>Unknown Director</h3>}
-						<p>{film.vote_average}</p>
-						<p>{film.vote_count}</p>
-						<h3>{film.tagline}</h3>
-						<div className={styles.overviewContainer}>
-							<h2 className={styles.overviewTitle}>Overview</h2>
-							<p>{film.overview}</p>
-						</div>
+						</Dropdown>
 					</div>
-				</div>		
-			</Content > 
-		: null
-	)
+					<Genres genres={film.genres} />
+					{film.director ? 
+						<h3 className={styles.textStyle}>{film.director}</h3>
+					: <h3>Unknown Director</h3>}
+					<p>{film.vote_average}</p>
+					<div className={styles.overviewContainer}>
+						<h2 className={styles.overviewTitle}>Overview</h2>
+						<p>{film.overview}</p>
+					</div>
+				</div>
+			</div>		
+		</Content > 
+	: null)
 }
 
 export default FilmDetails
