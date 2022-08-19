@@ -1,16 +1,15 @@
 import { Layout } from 'antd'
-import Favourites from '../Lists/Favourites'
+import FilmList from './component/FilmList'
 import styles from './myFilms.module.css'
-
 
 const { Content } = Layout
 const MyFilmsPage = () => {
 
   return (
-	<Content>
-		<div className={styles.container}>
-			<h1>My Films</h1>
-			<Favourites/>
+	<Content className={styles.container}>
+		<div className={styles.innerContainer}>
+			{/* <h1 className={styles.title}>Favourites</h1> */}
+			<FilmList/>
 		</div>
 	</Content>
   )

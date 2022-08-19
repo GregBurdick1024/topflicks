@@ -5,9 +5,9 @@
 }
 
 .genre {
-    margin: 4px;
+    margin: 4px 4px 4px 0px;
     border-radius: 6px;
     border: solid 1px black;
     padding: 0 4px;
-    background-color: rgba(17, 22, 24, 0.664);
+    background-color: rgba(17, 22, 24, 0.815);
 }

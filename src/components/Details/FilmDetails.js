@@ -2,12 +2,36 @@ import { useEffect } from "react"
 import { Layout, Button, Dropdown, Menu, Tooltip, Image } from "antd"
 import { Link, useLocation } from 'react-router-dom'
 import Genres from './component/Genres'
-import { HeartFilled, 	HeartOutlined, UnorderedListOutlined } from '@ant-design/icons'
+import { HeartFilled, 	HeartOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons'
 import styles from './details.module.css'
 import { useDispatch, useSelector } from "react-redux"
 import { initializeDirector, initializeFilm } from "../reducers/filmReducer"
 import { postFavourite, deleteFavourite } from "../reducers/userReducer"
 const { Content } = Layout
+
+const ScoreCircle = () => {
+	
+	let score = useSelector(({ films }) => films.data.vote_average)
+	score = Math.round(score * 10)
+	const result = () => {
+		if(score >= 75){
+			return 'green'
+		} else if(score < 75 && score >= 60){
+			return 'yellow'
+		} else if (score < 60 && score >= 45){
+			return 'orange'
+		} else {
+            return 'red'
+        }
+	}
+	return (
+		<div className={styles.scoreContainer}>
+			<div style={{borderColor: result()}} className={styles.circle}>
+				{score}
+			</div>
+		</div>
+	)
+}
 
 const FilmDetails = () => {
 	const location = useLocation()
@@ -42,15 +66,13 @@ const FilmDetails = () => {
 		let id = user.details.id
 		dispatch(postFavourite(film, id))
 	}
+	
 	const handleRemoveFav = () => {
 		let id = user.details.id
 		dispatch(deleteFavourite(filmId, id))
 		console.log()
 	}
 
-	
-
-	
 	const handleRating = () => {
 
 	}
@@ -97,7 +119,16 @@ const FilmDetails = () => {
 						<h1 id={styles.title} className={styles.textStyle}>{film.title}</h1>
 						<h3 id={styles.release}className={styles.textStyle}>({film.release_date ? film.release_date.substring(0,4) : null})</h3>
 					</div>
-					<h3 id={styles.tagline}className={styles.textStyle}>{film.tagline}</h3>
+						<h3 id={styles.tagline}className={styles.textStyle}>"{film.tagline}"</h3>
+					<Genres genres={film.genres} />
+					{film.director ? 
+						<h3 className={styles.textStyle}>{film.director}</h3>
+						: <h3>Unknown Director</h3>}
+					<ScoreCircle />
+					<div className={styles.overviewContainer}>
+						<h2 className={styles.overviewTitle}>Overview</h2>
+						<p>{film.overview}</p>
+					</div>
 					<div className={styles.buttonsContainer}>
 						{user.favourites && isFav() ? <Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? null : 'Log in to add film'} color='blue'>
 							<Button className={styles.button} onClick={handleRemoveFav}><HeartFilled /></Button> 
@@ -105,22 +136,13 @@ const FilmDetails = () => {
 							<Button className={styles.button} onClick={handleAddFav}><HeartOutlined /></Button> 
 						</Tooltip>}
 						<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Rate ${film.title}` : 'Log in to rate film'} color='blue'>
-							<Button className={styles.button} disabled={user ? false : true} onClick={handleRating}><HeartOutlined/></Button>
+							<Button className={styles.button} disabled={user ? false : true} onClick={handleRating}><StarOutlined/></Button>
 						</Tooltip>
 						<Dropdown trigger={['click']} overlay={listMenu}>
 							<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Add to list or create new list` : 'Log in to create lists'} color='blue'>
 								<Button className={styles.button} disabled={user ? false : true} ><UnorderedListOutlined /></Button>
 							</Tooltip>
 						</Dropdown>
-					</div>
-					<Genres genres={film.genres} />
-					{film.director ? 
-						<h3 className={styles.textStyle}>{film.director}</h3>
-					: <h3>Unknown Director</h3>}
-					<p>{film.vote_average}</p>
-					<div className={styles.overviewContainer}>
-						<h2 className={styles.overviewTitle}>Overview</h2>
-						<p>{film.overview}</p>
 					</div>
 				</div>
 			</div>		

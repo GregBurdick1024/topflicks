@@ -65,7 +65,14 @@ export const postFavourite = (film, id) => {
     }
 }
 
-export const { setFavourites, setUser, addFavourite } = userSlice.actions
+export const setRating = (id, rating) => {
+    return async dispatch => {
+        const newRating = await userService.putRating(id, rating)
+        dispatch(addRating(newRating))
+    }
+}
+
+export const { setFavourites, setUser, addFavourite, addRating } = userSlice.actions
 
 export default userSlice.reducer
 

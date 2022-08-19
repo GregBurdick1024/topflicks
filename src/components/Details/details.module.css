@@ -1,22 +1,25 @@
 .tooltip {
-  z-index: 1;
-  
+  z-index: 10;
 }
 
 .button {
-  margin: 5px;
+  margin-right: 16%;
 }
 
 .filmDetails {
   display: flex;
   color: aliceblue;
-  background-image: linear-gradient(to right, #131d36 800px, #598abe77 100%);
-  height: 800px;
+  background-image: linear-gradient(to right, #131d36 30vw, #598abe77 150%);
+  min-height: 100vh;
 }
 
 .posterContainer {
-  padding: 10vh 5vw;
-  z-index: 15;
+  margin-top: -10%;
+  padding: 0 5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
 }
 
 .poster {
@@ -25,10 +28,11 @@
 }
 
 .textContainer {
-  margin-top: 100px;
+  margin-top: -10%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
   z-index: 10;
   
 }
@@ -69,17 +73,20 @@
 	background-size: cover;
   position: absolute;
   margin-top: 50px;
-  height: 60vh;
+  height: 80vh;
   min-height: 580px;
-  width: 100vw;
+  width: 100%;
   opacity: 0.2;
+  
 }
 
 .overviewContainer {
+  margin-top: 5%;
   display: flex;
   flex-direction: column;
   text-align: left;
-  max-width: 550px;
+  max-width: 450px;
+  
 }
 
 .overviewTitle {
@@ -89,7 +96,46 @@
 
 .buttonsContainer {
   display: flex;
-  width: 30%;
+  margin-top: 2%;
   justify-content: flex-start;
   
 }
+
+
+.scoreContainer {
+  aspect-ratio: 1;
+  width: 38px;
+}
+
+.circle {
+  border-radius: 90%;
+  border: solid 3px;
+  box-shadow: 0px  0px 5px rgba(11, 12, 12, 0.76);
+  padding: 3px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  aspect-ratio: 1;
+  text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+    #title {
+      font-weight: 500;
+      font-size: 1.8rem;
+      margin-right: 1vmax;
+      margin-bottom: 0;
+    }
+    
+    #tagline {
+     font-size: 1.2rem;
+     font-style: italic;
+     font-weight: 300;
+    }
+    
+    #release {
+      font-size: 1.2rem;
+      margin-bottom: 0;
+    
+    }
+}
+  

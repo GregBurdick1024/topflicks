@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Layout, Menu, Button, Dropdown, Breadcrumb } from 'antd'
+import { Layout, Menu, Dropdown } from 'antd'
 import './style.css';
 import HomePage from '../Homepage/HomePage'
 import FilmDetails from '../Details/FilmDetails';
@@ -16,8 +16,7 @@ import {
 import styles from './app.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, initialiseUser } from '../reducers/userReducer';
-import TestTable from '../Test';
-
+import SearchPage from '../Search/Search';
 
 const { Header, Footer } = Layout
 
@@ -34,7 +33,6 @@ const App = () => {
 		}
 	  }, [])
 
-
 	const handleLogOut = () => {
 		dispatch(logout())
 		window.localStorage.clear()
@@ -46,8 +44,6 @@ const App = () => {
 		<Menu.Item key='1'onClick={handleLogOut}>Log out</Menu.Item>
 	</Menu>
 	)
-  
-  
   
 	return (
 	<Layout className="App">
@@ -64,8 +60,8 @@ const App = () => {
 							icon={<UserOutlined className={styles.icon}/>}
 							trigger={['click']}
 							overlay={menu}
-						>
-							{user.username}
+						><Link to='/'>{user.username}</Link>
+							
               			</Dropdown.Button>
             		) : 
 					<Dropdown.Button
@@ -78,7 +74,7 @@ const App = () => {
         	</Menu>
 		</Header>
 		<Routes>
-			<Route path='/newlist' element={<TestTable />} />
+			<Route path='/newlist' element={<MyFilms />} />
 			<Route path='/myfilms/:id/:user' element={<MyFilms />} />
 			<Route
 				path='/login'
@@ -89,12 +85,12 @@ const App = () => {
 				}
 			/>
 			{/* <Route path='/toplists/:id/:user/:list' element={<ListPage user={user} />} />
-			<Route path='/toplists/:id/:user' element={<TopListsPage user={user} topLists={topLists} />} />
-			<Route path='/search/:film' element={<SearchPage searchResults={searchResults} setSearchResults={setSearchResults} />} /> */}
+			<Route path='/toplists/:id/:user' element={<TopListsPage user={user} topLists={topLists} />} /> */}
+			<Route path='/search-:film' element={<SearchPage />} />
 			<Route path='/film/:id' element={<FilmDetails />} />
 			<Route path='/' element={<HomePage />} />
 		</Routes>
-		<Footer>Footer</Footer>
+		<Footer className={styles.footer}>Footer</Footer>
 	</Layout>
 	);
 }

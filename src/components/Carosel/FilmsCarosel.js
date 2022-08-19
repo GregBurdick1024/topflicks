@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import styles from "./carosel.module.css"
 import { useDispatch } from "react-redux"
 import { clearFilm, initializeDirector, initializeFilm } from "../reducers/filmReducer"
-import userReducer from "../reducers/userReducer"
+import ScoreCircle from '../Details/component/Score'
 
 const Film = ({ title, voteAvg, release, poster, id }) => {
     const dispatch = useDispatch()
@@ -23,9 +23,13 @@ const Film = ({ title, voteAvg, release, poster, id }) => {
 			src={`http://image.tmdb.org/t/p/w154/${poster}`}
 		/>
 		</Link>
-		<p className={styles.rating}>{voteAvg}</p>
-		<h3 className={styles.title}>{title}</h3>
-		<p className={styles.release}>({year})</p>
+		<div className={styles.detailsContainer}>
+			<div className={styles.titleContainer}>
+				<h3 className={styles.title}>{title}</h3>
+				<p className={styles.release}>({year})</p>
+			</div>
+			<ScoreCircle score={voteAvg}/>
+		</div>
 	</div>
     )
   }
@@ -52,5 +56,5 @@ const FilmsCarosel = ({ films }) => {
 	}
 }
   
-  export default FilmsCarosel
+export default FilmsCarosel
   

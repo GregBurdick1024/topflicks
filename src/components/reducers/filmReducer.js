@@ -19,12 +19,14 @@ initialState: {},
         },
         setDirector(state, action){
             state.data = {...state.data, director: action.payload}
+        },
+        setSearchResults(state, action){
+            state.search = action.payload
         }
 
 
     }
 })
-
 
 export const initializeDirector = (id) => {
     return async dispatch => {
@@ -37,6 +39,12 @@ export const initializeDirector = (id) => {
 export const clearFilm = () => {
     return dispatch => {
         dispatch(setFilm())
+    }
+}
+
+export const clearSearch = () => {
+    return dispatch => {
+        dispatch(setSearchResults())
     }
 }
 
@@ -74,6 +82,17 @@ export const initializePopular = () => {
     }
 }
 
-export const { setPopular, setUpcoming, setTopRated, setFilm, setDirector } = filmSlice.actions
+export const getSearch = (value) => {
+    return async dispatch => {
+        const data = await filmService.searchFilm(value)
+        const movies = data.results.filter(f =>
+            f.media_type === 'movie')
+            console.log(movies)
+        dispatch(setSearchResults(movies))
+
+    }
+}
+
+export const { setPopular, setUpcoming, setTopRated, setFilm, setDirector, setSearchResults } = filmSlice.actions
 
 export default filmSlice.reducer
