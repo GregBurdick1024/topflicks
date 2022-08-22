@@ -1,18 +1,14 @@
 
-.ant-list-item-meta-avatar > a > img {
+.poster {
   border-radius: 5px;
-  margin: 5px 10px;
-  width: 60%;
+  margin: 5px 5px;
+  width: 70%;
 }
 
-.ant-list-item-meta-title > div > h1 {
-  font-weight: 500;
+.title {
+  font-weight: 400;
   margin-bottom: 0;
   margin-top: 2%;
-}
-
-.ant-list-item > div{
-  padding: 10px;
 }
 
 .emptyTable {
@@ -20,4 +16,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.seenButton {
+  border: none;
+  box-shadow: none;
+  
 }

@@ -21,4 +21,5 @@
 .footer {
   justify-content: center;
   background-color: #001529;
+  z-index: 10;
 }

@@ -54,12 +54,22 @@ const removeFavourite = async (id) => {
   return res.data
 }
 
-const rateFilm = async (id) => {
+const putRating = async (id, rating) => {
   const config =
   {
     headers: { Authorization: token },
   }
-  const res = await axios.post(`${baseUrl}/favourites/update`, config)
+
+  const res = await axios.post(`${baseUrl}/update/rating`, {id, rating}, config)
+  return res.data
+}
+const setWatched = async (id) => {
+  const config =
+  {
+    headers: { Authorization: token },
+  }
+  const res = await axios.post(`${baseUrl}/update/watched`, {id}, config)
+  return res.data
 }
 
 // const addTopList = async (details) => {
@@ -94,5 +104,6 @@ export default {
 	setToken,
 	postFavourite,
 	removeFavourite,
-	rateFilm
+	putRating,
+  setWatched
 }

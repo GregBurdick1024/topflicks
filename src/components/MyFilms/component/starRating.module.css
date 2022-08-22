@@ -19,9 +19,26 @@
 
 .starOn {
     color: yellow;
+    padding: 1px;
 }
 
 .button {
     border: none;
     padding: 0 3px;
+    background: none;
+}
+
+.button:hover {
+    background: none;
+}
+.button:focus {
+    background: none;
+}
+.button:disabled {
+    background: none;
+
+}
+
+.button:disabled:hover {
+    background: none;
 }

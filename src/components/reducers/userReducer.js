@@ -8,7 +8,7 @@ initialState: {},
     reducers: {
         setFavourites(state, action){
             if(action.payload.length){
-                state.favourites = action.payload
+                state.favourites = action.payload.sort((a,b) => a.id - b.id)
             } else {
                 state.favourites = null
             }
@@ -16,8 +16,10 @@ initialState: {},
         addFavourite(state, action){
             state.favourites ? state.favourites.push(action.payload) : state.favourites = [action.payload]
         },
+        updateFavourite(state, action){
+            state.favourites.map((fav) => fav.id === action.payload.id ? action.payload : fav)
+        },
         setUser(state, action){
-            
             state.details = action.payload
         }
     }
@@ -68,11 +70,18 @@ export const postFavourite = (film, id) => {
 export const setRating = (id, rating) => {
     return async dispatch => {
         const newRating = await userService.putRating(id, rating)
-        dispatch(addRating(newRating))
+        dispatch(updateFavourite(newRating))
     }
 }
 
-export const { setFavourites, setUser, addFavourite, addRating } = userSlice.actions
+export const setWatched = (id) => {
+    return async dispatch => {
+        const newWatched = await userService.setWatched(id)
+        dispatch(updateFavourite(newWatched))
+    }
+}
+
+export const { setFavourites, setUser, addFavourite, addRating, updateFavourite } = userSlice.actions
 
 export default userSlice.reducer
 

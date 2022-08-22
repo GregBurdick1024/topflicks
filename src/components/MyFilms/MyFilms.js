@@ -1,18 +1,39 @@
 import { Layout } from 'antd'
 import FilmList from './component/FilmList'
 import styles from './myFilms.module.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteFavourite, setWatched } from '../reducers/userReducer'
 
 const { Content } = Layout
+
 const MyFilmsPage = () => {
 
-  return (
+	let dispatch = useDispatch()
+	
+	const user = useSelector(({ user }) => user.details)
+	const favourites = useSelector(({ user }) => user.favourites)
+
+
+	const handleRemoveFav = (id) => {
+		dispatch(deleteFavourite(id, user.id))	
+	}
+
+	const toggleWatched = (id) => {
+		dispatch(setWatched(id))
+	}
+
+	return (
 	<Content className={styles.container}>
 		<div className={styles.innerContainer}>
-			{/* <h1 className={styles.title}>Favourites</h1> */}
-			<FilmList/>
+			{favourites ? 
+			<FilmList remove={handleRemoveFav} favourites={favourites} watched={toggleWatched}/>
+			: 
+			<div className={styles.emptyTable}>
+				<h4>No favourites, Star a film to add it to this list. </h4> 
+			</div>}
 		</div>
 	</Content>
-  )
+	)
 }
 
 export default MyFilmsPage

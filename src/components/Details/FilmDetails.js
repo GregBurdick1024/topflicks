@@ -1,12 +1,14 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Layout, Button, Dropdown, Menu, Tooltip, Image } from "antd"
 import { Link, useLocation } from 'react-router-dom'
 import Genres from './component/Genres'
-import { HeartFilled, 	HeartOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons'
+import { EyeInvisibleTwoTone, HeartFilled, 	HeartOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons'
 import styles from './details.module.css'
 import { useDispatch, useSelector } from "react-redux"
 import { initializeDirector, initializeFilm } from "../reducers/filmReducer"
 import { postFavourite, deleteFavourite } from "../reducers/userReducer"
+import StarRating from '../MyFilms/component/StarRating'
+
 const { Content } = Layout
 
 const ScoreCircle = () => {
@@ -27,7 +29,7 @@ const ScoreCircle = () => {
 	return (
 		<div className={styles.scoreContainer}>
 			<div style={{borderColor: result()}} className={styles.circle}>
-				{score}
+				{String(score)}
 			</div>
 		</div>
 	)
@@ -39,28 +41,26 @@ const FilmDetails = () => {
 	let filmId = location.pathname.substring(6)
 	
 	const user = useSelector(({ user }) => user)
+	const favourites = useSelector(({ user }) => user.favourites)
 	const film = useSelector(({ films }) => films.data)
+
+	const [currentFilm, setCurrentFilm] = useState(null)
 
 	//gets film id from path and populates film data
 	useEffect(() => {
-		
-		if(!film) {
+		setCurrentFilm(null)
+		if(!film){
 			dispatch(initializeFilm(filmId))
 			dispatch(initializeDirector(filmId))
 		}
-	}, [])
-	
-	const isFav = () => {
-		let isFav = false
-		user.favourites.forEach(f => {
-			if(f.filmId === film.film_id){
-				isFav = true
-			}
-				
-		})
-		
-		return isFav
-	}
+		if(favourites && film){
+			favourites.forEach(f => {			
+				if(f.filmId === film.film_id){
+					setCurrentFilm(f)
+				}
+			})
+		}
+	}, [favourites, film])
 
 	const handleAddFav = () => {
 		let id = user.details.id
@@ -69,13 +69,14 @@ const FilmDetails = () => {
 	
 	const handleRemoveFav = () => {
 		let id = user.details.id
-		dispatch(deleteFavourite(filmId, id))
-		console.log()
+		dispatch(deleteFavourite(currentFilm.id, id))
 	}
 
 	const handleRating = () => {
 
 	}
+
+	console.log(currentFilm)
 
 	// const watchMenu = (
 	// <Menu>
@@ -87,22 +88,28 @@ const FilmDetails = () => {
 	// 	</Menu.Item>
 	// </Menu>
 	// )
-	
 	const listMenu = (
 	<Menu>
 		<Menu.Item>
-		<Link to={`/newlist`}>
-			Create List
-		</Link>
+		
 		</Menu.Item>
 		<Menu.Item>
 		Add to List
 		</Menu.Item>
 	</Menu>
 	)
-
+	const ratingMenu = (
+	<Menu>
+		<Menu.Item>
+			<StarRating />
+		</Menu.Item>
+		
+	</Menu>
+	)
+	
+	
 	return (film && user ? 
-		<Content>
+		<Content className={styles.mainContainer}>
 			<div className={styles.filmDetails}>
 				<div className={styles.backgroundPoster} 
 					style={
@@ -116,8 +123,8 @@ const FilmDetails = () => {
 				</div>
 				<div className={styles.textContainer}>
 					<div className={styles.titleYear}>
-						<h1 id={styles.title} className={styles.textStyle}>{film.title}</h1>
-						<h3 id={styles.release}className={styles.textStyle}>({film.release_date ? film.release_date.substring(0,4) : null})</h3>
+						<h1 id={styles.title} className={styles.textStyle}>{film.title}
+						<span id={styles.release}className={styles.textStyle}>({film.release_date ? film.release_date.substring(0,4) : null})</span></h1>
 					</div>
 						<h3 id={styles.tagline}className={styles.textStyle}>"{film.tagline}"</h3>
 					<Genres genres={film.genres} />
@@ -130,19 +137,15 @@ const FilmDetails = () => {
 						<p>{film.overview}</p>
 					</div>
 					<div className={styles.buttonsContainer}>
-						{user.favourites && isFav() ? <Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? null : 'Log in to add film'} color='blue'>
+						{currentFilm ? <Tooltip overlayClassName={styles.tooltip} placement='bottom' title={'Remove favourite'}>
 							<Button className={styles.button} onClick={handleRemoveFav}><HeartFilled /></Button> 
-						</Tooltip> : <Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Add to favourites` : 'Log in to add film'} color='blue'>
+						</Tooltip> : <Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Add to favourites` : 'Log in to add film'}>
 							<Button className={styles.button} onClick={handleAddFav}><HeartOutlined /></Button> 
 						</Tooltip>}
-						<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Rate ${film.title}` : 'Log in to rate film'} color='blue'>
-							<Button className={styles.button} disabled={user ? false : true} onClick={handleRating}><StarOutlined/></Button>
+						<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Mark as seen` : 'Mark as want to watch'}>
+							<Button className={styles.button} disabled={user ? false : true} ><EyeInvisibleTwoTone /></Button>
 						</Tooltip>
-						<Dropdown trigger={['click']} overlay={listMenu}>
-							<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Add to list or create new list` : 'Log in to create lists'} color='blue'>
-								<Button className={styles.button} disabled={user ? false : true} ><UnorderedListOutlined /></Button>
-							</Tooltip>
-						</Dropdown>
+						{currentFilm ? <StarRating rating={currentFilm.rating} seen={currentFilm.watched}/> : <StarRating />}
 					</div>
 				</div>
 			</div>		

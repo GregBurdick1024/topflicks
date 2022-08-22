@@ -28,8 +28,7 @@ const App = () => {
 		const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
 		if (loggedUserJSON) {
 			const user = JSON.parse(loggedUserJSON)
-			dispatch(initialiseUser(user))
-			
+			dispatch(initialiseUser(user))	
 		}
 	  }, [])
 
