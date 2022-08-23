@@ -26,11 +26,11 @@ const App = () => {
 	const user = useSelector(({ user }) => user.details)
 	useEffect(() => {
 		const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
-		if (loggedUserJSON) {
+		if (loggedUserJSON && !user) {
 			const user = JSON.parse(loggedUserJSON)
 			dispatch(initialiseUser(user))	
 		}
-	  }, [])
+	  }, [user])
 
 	const handleLogOut = () => {
 		dispatch(logout())

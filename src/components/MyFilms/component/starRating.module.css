@@ -22,6 +22,10 @@
     padding: 1px;
 }
 
+.starDisabled {
+    display: none;
+}
+
 .button {
     border: none;
     padding: 0 3px;

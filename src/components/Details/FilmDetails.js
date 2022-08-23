@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react"
-import { Layout, Button, Dropdown, Menu, Tooltip, Image } from "antd"
-import { Link, useLocation } from 'react-router-dom'
+import { Layout, Button, Menu, Tooltip, Image } from "antd"
+import { useLocation } from 'react-router-dom'
 import Genres from './component/Genres'
-import { EyeInvisibleTwoTone, HeartFilled, 	HeartOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons'
+import { EyeInvisibleTwoTone, EyeTwoTone, HeartFilled, 	HeartOutlined } from '@ant-design/icons'
 import styles from './details.module.css'
 import { useDispatch, useSelector } from "react-redux"
 import { initializeDirector, initializeFilm } from "../reducers/filmReducer"
-import { postFavourite, deleteFavourite } from "../reducers/userReducer"
+import { postFavourite, deleteFavourite, setWatched, setRating } from "../reducers/userReducer"
 import StarRating from '../MyFilms/component/StarRating'
 
 const { Content } = Layout
 
 const ScoreCircle = () => {
-	
 	let score = useSelector(({ films }) => films.data.vote_average)
 	score = Math.round(score * 10)
 	const result = () => {
@@ -57,6 +56,7 @@ const FilmDetails = () => {
 			favourites.forEach(f => {			
 				if(f.filmId === film.film_id){
 					setCurrentFilm(f)
+					console.log(f)
 				}
 			})
 		}
@@ -72,11 +72,14 @@ const FilmDetails = () => {
 		dispatch(deleteFavourite(currentFilm.id, id))
 	}
 
-	const handleRating = () => {
+	const handleRating = (id, index) => {
+		console.log(id, index)
+        dispatch(setRating(id, index + 1)) 
+    }
 
+	const toggleWatched = () => {
+		dispatch(setWatched(currentFilm.id))
 	}
-
-	console.log(currentFilm)
 
 	// const watchMenu = (
 	// <Menu>
@@ -142,10 +145,18 @@ const FilmDetails = () => {
 						</Tooltip> : <Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Add to favourites` : 'Log in to add film'}>
 							<Button className={styles.button} onClick={handleAddFav}><HeartOutlined /></Button> 
 						</Tooltip>}
-						<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={user ? `Mark as seen` : 'Mark as want to watch'}>
-							<Button className={styles.button} disabled={user ? false : true} ><EyeInvisibleTwoTone /></Button>
-						</Tooltip>
-						{currentFilm ? <StarRating rating={currentFilm.rating} seen={currentFilm.watched}/> : <StarRating />}
+						{!currentFilm 
+							? <Button className={styles.button} disabled={true} ><EyeInvisibleTwoTone /></Button> 
+							: !currentFilm.watched ? 
+								<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={'Seen'}>
+									<Button onClick={toggleWatched} className={styles.button}><EyeInvisibleTwoTone /></Button>
+								</Tooltip> 
+								: 
+								<Tooltip overlayClassName={styles.tooltip} placement='bottom' title={'Want to see'}>
+									<Button onClick={toggleWatched} className={styles.button}><EyeTwoTone /></Button>
+								</Tooltip> 
+						}
+						{currentFilm ? <StarRating userRating={currentFilm.rating} seen={currentFilm.watched} id={currentFilm.id} handleRating={handleRating}/> : <StarRating />}
 					</div>
 				</div>
 			</div>		

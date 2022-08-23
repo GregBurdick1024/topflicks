@@ -5,20 +5,9 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setRating } from '../../reducers/userReducer'
 
-const StarRating = ({ userRating, seen, id }) => {
-    
-    
+const StarRating = ({ userRating, seen, id, handleRating }) => {
     const [hover, setHover] = useState(0)
-    const [rating, setRating] = useState(userRating)
-    const dispatch = useDispatch()
-    
-    useEffect(() => {
-
-    }, [rating])
-
-    const handleClick = (index) => {
-        dispatch(setRating(id, index + 1)) 
-    }
+    console.log(userRating)
 
     return (
         <div className={styles.ratingContainer}>
@@ -29,19 +18,19 @@ const StarRating = ({ userRating, seen, id }) => {
                         disabled={seen ? false : true}
                         key={index}
                         className={styles.button}
-                        onClick={() => handleClick(index)}
+                        onClick={() => handleRating(id, index)}
                         onMouseEnter={() => setHover(index + 1)}
                         onMouseLeave={() => setHover(null)}>
                         <StarFilled
                             key={index}
-                            className={index < (hover || rating) ? styles.starOn : styles.starOff}
+                            className={!seen ? styles.starOff : index < (hover || userRating) ? styles.starOn : styles.starOff}
                             
                         />
                         </Button>
                     )
                 })}
             </div>
-            <h5>{rating || rating === 0 ? null : 'No rating'}</h5>
+            <h5>{!seen ? null : userRating || userRating === 0 ? null : 'No rating'}</h5>
         </div>
     )
 

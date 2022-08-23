@@ -17,7 +17,7 @@ initialState: {},
             state.favourites ? state.favourites.push(action.payload) : state.favourites = [action.payload]
         },
         updateFavourite(state, action){
-            state.favourites.map((fav) => fav.id === action.payload.id ? action.payload : fav)
+            state.favourites = state.favourites.map((fav) => fav.id === action.payload.id ? action.payload : fav)
         },
         setUser(state, action){
             state.details = action.payload

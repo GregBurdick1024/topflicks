@@ -32,21 +32,14 @@ const Title = ({ item }) => {
 }
 
 const WatchedButton = ({ item, watched}) => {
-
-	const [toggle, setToggle] = useState(item.watched)
-
-	useEffect(() => {
-		
-	},[item] )
+	
 	const handleClick = () => {
-		
 		watched(item.id)
-		setToggle(!toggle)
 	}
 
 	return (
 		<div>
-			{toggle 
+			{item.watched 
 			? <Button 
 				onClick={handleClick} 
 				className={styles.seenButton}>
@@ -63,7 +56,7 @@ const WatchedButton = ({ item, watched}) => {
 }
 
 
-const FilmList = ({ favourites, remove, watched }) => {
+const FilmList = ({ favourites, remove, watched, handleRating }) => {
 
 	
 
@@ -84,8 +77,8 @@ const FilmList = ({ favourites, remove, watched }) => {
 							}
 						/>
 						<WatchedButton item={item} watched={watched}/>
-						<StarRating rating={item.rating} seen={item.watched} id={item.id}/>
-						<div><Button onClick={() => remove(item.id)}><DeleteOutlined />Remove</Button></div>
+						<StarRating userRating={item.rating} seen={item.watched} id={item.id} handleRating={handleRating}/>
+						<div><Button onClick={() => remove(item.id)}><DeleteOutlined /></Button></div>
 					</List.Item>
 				)}
 			/>
