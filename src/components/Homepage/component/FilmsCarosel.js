@@ -1,19 +1,10 @@
 import { Link } from 'react-router-dom'
 import styles from "./carosel.module.css"
-import { useDispatch } from "react-redux"
-import { clearFilm, initializeDirector, initializeFilm } from "../reducers/filmReducer"
-import ScoreCircle from '../Details/component/Score'
+import ScoreCircle from './Score'
 
-const Film = ({ title, voteAvg, release, poster, id }) => {
-    const dispatch = useDispatch()
+const Film = ({ title, voteAvg, release, poster, id, handleClick }) => {
 
 	const year = release.substring(0,4)
-
-	const handleClick = (id) => {
-		dispatch(clearFilm())
-		dispatch(initializeFilm(id))
-		dispatch(initializeDirector(id))
-	}
   
   return (
 	<div className={styles.film}>

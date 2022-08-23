@@ -1,11 +1,10 @@
 import styles from './filmList.module.css'
 import { Link } from 'react-router-dom'
 import { Button, List } from 'antd'
-import { DeleteOutlined, EyeTwoTone, EyeInvisibleTwoTone } from '@ant-design/icons'
+import { DeleteOutlined, EyeTwoTone } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { clearFilm } from '../../reducers/filmReducer'
 import StarRating from './StarRating'
-import { useState, useEffect } from 'react'
 
 const PosterAvatar = ({ item }) => {
 	let dispatch = useDispatch()
@@ -57,8 +56,6 @@ const WatchedButton = ({ item, watched}) => {
 
 
 const FilmList = ({ favourites, remove, watched, handleRating }) => {
-
-	
 
 	return (
 		<div>

@@ -16,3 +16,16 @@
   .list {
     min-width: 700px;
   }
+
+  .poster {
+    border-radius: 5px;
+    margin: 5px 5px;
+    width: 70%;
+  }
+  
+  .title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    width: 700px;
+  }
+  

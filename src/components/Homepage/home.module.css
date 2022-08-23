@@ -10,6 +10,11 @@
   border: solid #1990fe 2px;
 }
 
+.name {
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
 .title {
   font-size: 1.9rem;
   font-weight: 700;

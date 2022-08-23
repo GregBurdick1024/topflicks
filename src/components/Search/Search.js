@@ -1,23 +1,59 @@
-import { Layout, List, Button } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
+import { Layout, List, Button, Tooltip } from 'antd'
 import Search from 'antd/lib/input/Search'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './search.module.css'
 import { Link } from 'react-router-dom'
 import { getSearch, clearFilm, clearSearch } from '../reducers/filmReducer'
-import { deleteFavourite } from '../reducers/userReducer'
+import { HeartTwoTone, HeartFilled } from '@ant-design/icons'
+import { useEffect } from 'react'
 
 const { Content } = Layout
 
+const Title = ({ item }) => {
+	const releaseYear = item.release_date.substring(0,4)
+	
+	return (
+		<div>
+			<h1 className={styles.name}>{item.title}</h1>
+			<h4>({releaseYear})</h4>
+		</div>
+	)
+}
+
+const PosterAvatar = ({ item }) => {
+	let dispatch = useDispatch()
+	return (
+		<Link to={`/film/${item.id}`} onClick={() => dispatch(clearFilm())}>
+			<img 
+				className={styles.poster}
+				src={`http://image.tmdb.org/t/p/w92/${item.poster_path}`}
+			/>
+		</Link>
+	)	
+}
+
+const LikeButton = () => {
+
+	return (
+		<Tooltip placement='bottom' title={'Add to favourites'}>
+			<Button>
+				<HeartTwoTone twoToneColor='#AAAAAA' />
+			</Button>
+		</Tooltip>
+	)
+}
+
 const SearchPage = () => {
 	const dispatch = useDispatch()
-	const user = useSelector(({ user }) => user.details)
 	const searchResults = useSelector(({ films }) => films.search)
 
+	
 	const handleSearch = (value) => {
 		dispatch(clearSearch())
 		dispatch(getSearch(value))
 	}
+
+	
 
 	return (
 	<Content className={styles.container}>
@@ -26,6 +62,7 @@ const SearchPage = () => {
 		onSearch={(value) => handleSearch(value)}
 		className={styles.searchBar}
 		/>
+		<h1 className={styles.title} >Search Results</h1>
 		{searchResults ?
 		<List
 			bordered={true}
@@ -37,25 +74,13 @@ const SearchPage = () => {
 				<List.Item>
 					<List.Item.Meta 
 						avatar={
-							<>
-								<Link to={`/film/${item.id}`} onClick={() => dispatch(clearFilm())}>
-									<img 
-										className={styles.poster}
-										src={`http://image.tmdb.org/t/p/w92/${item.poster_path}`}
-									/>
-								</Link>
-							</>
+							<PosterAvatar item={item}/>
 							}
 						title={
-							<div className={styles.firstColumn}>
-								<h1 className={styles.title}>{item.title}</h1>
-								<h4>({item.release_date.substring(0,4)})</h4>
-								<span className={styles.director}></span>{item.director}
-							</div>
+							<Title item={item}/>
 						}
 					/>
-					<div><h3>{item.watched ? 'Seen' : 'Want to See'}</h3></div>
-					<div><h3>{item.rating ? item.rating : 'No rating'}</h3></div>
+					<LikeButton />
 				</List.Item>
 			)}
 			/>

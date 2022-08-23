@@ -53,7 +53,7 @@ const App = () => {
 					{user ? <Link to={`/myfilms/${user.id}/${user.username}`}>My Favourites</Link> : null}
 				</Menu.Item>
           		
-          		<Menu.Item key='2'>
+          		<Menu.Item key='1'>
             		{user ? (
               			<Dropdown.Button
 							icon={<UserOutlined className={styles.icon}/>}

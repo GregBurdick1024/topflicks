@@ -73,43 +73,12 @@ const FilmDetails = () => {
 	}
 
 	const handleRating = (id, index) => {
-		console.log(id, index)
         dispatch(setRating(id, index + 1)) 
     }
 
 	const toggleWatched = () => {
 		dispatch(setWatched(currentFilm.id))
 	}
-
-	// const watchMenu = (
-	// <Menu>
-	// 	<Menu.Item onClick={() => handleTagFilm(0)}>
-	// 	Want to Watch
-	// 	</Menu.Item>
-	// 	<Menu.Item onClick={() => handleTagFilm(1)}>
-	// 	Watched
-	// 	</Menu.Item>
-	// </Menu>
-	// )
-	const listMenu = (
-	<Menu>
-		<Menu.Item>
-		
-		</Menu.Item>
-		<Menu.Item>
-		Add to List
-		</Menu.Item>
-	</Menu>
-	)
-	const ratingMenu = (
-	<Menu>
-		<Menu.Item>
-			<StarRating />
-		</Menu.Item>
-		
-	</Menu>
-	)
-	
 	
 	return (film && user ? 
 		<Content className={styles.mainContainer}>

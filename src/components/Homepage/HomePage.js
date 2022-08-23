@@ -1,10 +1,17 @@
 import React, { useEffect } from "react"
-import FilmsCarosel from "../Carosel/FilmsCarosel"
+import FilmsCarosel from "./component/FilmsCarosel"
 import styles from "./home.module.css"
 import { Layout, Input } from "antd"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeUpcoming, initializePopular, getSearch, clearSearch } from "../reducers/filmReducer"
+import { 
+	initializeUpcoming, 
+	initializePopular, 
+	getSearch, 
+	clearSearch, 
+	clearFilm, 
+	initializeDirector, 
+	initializeFilm } from "../reducers/filmReducer"
 
 const { Search } = Input
 const { Content } = Layout
@@ -29,6 +36,13 @@ const HomePage = () => {
 		navigate(`../search-${value}`)
 	}
 
+	const handleClick = (id) => {
+		dispatch(clearFilm())
+		dispatch(initializeFilm(id))
+		dispatch(initializeDirector(id))
+	}
+	
+
 	return (
 	<Content>
 		<div className="container">
@@ -39,9 +53,9 @@ const HomePage = () => {
 		/>
 		<div className={styles.listContainer}>
 			<h3 className={styles.title}>What's Popular</h3>
-			<FilmsCarosel films={popular} />
+			<FilmsCarosel films={popular} handleClick={handleClick} />
 			<h3 className={styles.title}>Upcoming</h3>
-			<FilmsCarosel films={upcoming} />
+			<FilmsCarosel films={upcoming} handleClick={handleClick} />
 		</div>
 		</div>
 	</Content>
