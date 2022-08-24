@@ -48,13 +48,7 @@
   width: 100%;
   align-items: center;
   color: aliceblue;
-}
-
-#title {
-  font-weight: 700;
-  font-size: 3rem;
-  margin-right: 1vmax;
-  margin-bottom: 0;
+  font-size: 2rem;
 }
 
 #tagline {
@@ -65,7 +59,7 @@
 
 #release {
   font-size: 2rem;
-  margin-bottom: 0;
+  margin: 0 8px;
 
 }
 
@@ -131,7 +125,8 @@
     }
     
     #tagline {
-     font-size: 1.2rem;
+      width: 80%;
+     font-size: 0.9rem;
      font-style: italic;
      font-weight: 300;
     }
@@ -140,6 +135,10 @@
       font-size: 1.2rem;
       margin-bottom: 0;
     
+    }
+    .overviewContainer {
+      max-width: 250px;
+      
     }
 }
   

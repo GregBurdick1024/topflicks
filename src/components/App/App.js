@@ -17,6 +17,7 @@ import styles from './app.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, initialiseUser } from '../reducers/userReducer';
 import SearchPage from '../Search/Search';
+import { clearSearch } from '../reducers/filmReducer';
 
 const { Header, Footer } = Layout
 
@@ -49,6 +50,9 @@ const App = () => {
 		<Header>
 			<div className={styles.logo}>TopFlicks</div>
 			<Menu theme='dark' mode='horizontal' defaultSelectedKeys={['0']}className={styles.menu}>
+				<Menu.Item className={styles.menuItem}key='4'>
+					<Link onClick={() => dispatch(clearSearch())}to={`/search-null`}>Search</Link>
+				</Menu.Item>
 				<Menu.Item className={styles.menuItem}key='3'>
 					{user ? <Link to={`/myfilms/${user.id}/${user.username}`}>My Favourites</Link> : null}
 				</Menu.Item>
@@ -89,7 +93,7 @@ const App = () => {
 			<Route path='/film/:id' element={<FilmDetails />} />
 			<Route path='/' element={<HomePage />} />
 		</Routes>
-		<Footer className={styles.footer}>Footer</Footer>
+		<Footer className={styles.footer}>Designed by Greg Burdick 2022</Footer>
 	</Layout>
 	);
 }

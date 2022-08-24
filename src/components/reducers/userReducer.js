@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import loginService from '../services/loginService'
 import userService from '../services/userService'
+import filmService from '../services/filmService'
 
 const userSlice = createSlice({
     name: 'user',
@@ -60,9 +61,9 @@ export const deleteFavourite = (filmId, userId) => {
 }
 
 
-export const postFavourite = (film, id) => {
+export const postFavourite = (filmObj, id) => {
     return async dispatch => {
-        const newFav = await userService.postFavourite(film, id)
+        const newFav = await userService.postFavourite(filmObj, id)
         dispatch(addFavourite(newFav))
     }
 }
@@ -78,6 +79,25 @@ export const setWatched = (id) => {
     return async dispatch => {
         const newWatched = await userService.setWatched(id)
         dispatch(updateFavourite(newWatched))
+    }
+}
+
+export const findAndPostFavourite = (id, userId) => {
+    return async dispatch => {
+        const f = await filmService.getFilm(id)
+        dispatch(postFavourite({
+            film_id: f.id,
+                poster_path: f.poster_path,
+                title: f.title,
+                release_date: f.release_date,
+                tagline: f.tagline,
+                overview: f.overview,
+                genres: f.genres,
+                vote_average: f.vote_average,
+                vote_count: f.vote_count,
+                budget: f.budget,
+                backdrop_path: f.backdrop_path
+          }, userId))
     }
 }
 

@@ -1,13 +1,10 @@
 import styles from './starRating.module.css'
-import { StarOutlined, StarFilled } from '@ant-design/icons'
+import { StarFilled } from '@ant-design/icons'
 import { Button } from 'antd'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { setRating } from '../../reducers/userReducer'
+import { useState } from 'react'
 
 const StarRating = ({ userRating, seen, id, handleRating }) => {
     const [hover, setHover] = useState(0)
-    console.log(userRating)
 
     return (
         <div className={styles.ratingContainer}>
@@ -23,8 +20,11 @@ const StarRating = ({ userRating, seen, id, handleRating }) => {
                         onMouseLeave={() => setHover(null)}>
                         <StarFilled
                             key={index}
-                            className={!seen ? styles.starOff : index < (hover || userRating) ? styles.starOn : styles.starOff}
-                            
+                            className={!seen ?
+                                 styles.starOff : 
+                                 index < (hover || userRating) ? 
+                                    styles.starOn : styles.starOff
+                            }
                         />
                         </Button>
                     )

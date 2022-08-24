@@ -56,7 +56,6 @@ const FilmDetails = () => {
 			favourites.forEach(f => {			
 				if(f.filmId === film.film_id){
 					setCurrentFilm(f)
-					console.log(f)
 				}
 			})
 		}
