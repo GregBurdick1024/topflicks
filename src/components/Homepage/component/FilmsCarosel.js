@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom';
 import styles from './carosel.module.css';
 import ScoreCircle from './Score';
+import { useDispatch } from 'react-redux';
+import { clearFilm } from '../../reducers/filmReducer';
 
 const Film = ({ title, voteAvg, release, poster, id, handleClick }) => {
 	const year = release.substring(0, 4);
-
+	let dispatch = useDispatch();
 	return (
 		<div className={styles.film}>
-			<Link to={`/films/${id}`} onClick={() => handleClick(id)}>
+			<Link to={`/film/${id}`} onClick={() => dispatch(clearFilm())}>
 				<img
 					className={styles.poster}
 					src={`http://image.tmdb.org/t/p/w154/${poster}`}
+					alt={`movie poster for ${title}`}
 				/>
 			</Link>
 			<div className={styles.detailsContainer}>

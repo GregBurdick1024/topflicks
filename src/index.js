@@ -6,25 +6,23 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import filmReducer from './components/reducers/filmReducer'
+import filmReducer from './components/reducers/filmReducer';
 import userReducer from './components/reducers/userReducer';
 
 const store = configureStore({
-    reducer: {
-        films: filmReducer,
-        user: userReducer
-    }
-})
-
+	reducer: {
+		films: filmReducer,
+		user: userReducer,
+	},
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-
-    <Router>
-        <Provider store={store}>
-            <App />
-        </Provider>
-    </Router>
+	<Router>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</Router>
 );
 
 // If you want to start measuring performance in your app, pass a function

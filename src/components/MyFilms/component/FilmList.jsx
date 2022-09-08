@@ -13,6 +13,7 @@ const PosterAvatar = ({ item }) => {
 			<img 
 				className={styles.poster}
 				src={`http://image.tmdb.org/t/p/w92/${item.posterPath}`}
+				alt={`movie poster for ${item.title}`}
 			/>
 		</Link>
 	)
