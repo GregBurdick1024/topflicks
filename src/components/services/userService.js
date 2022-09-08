@@ -1,20 +1,24 @@
-import axios from 'axios'
-const baseUrl = 'http://localhost:3010/api/user'
+import axios from 'axios';
 
-let token = null
+//development url
+//const baseUrl = 'http://localhost:3010/api/user'
 
-const setToken = newToken => {
-	token = `bearer ${newToken}`
-}
+//prod url
+const baseUrl = '/api/user';
+
+let token = null;
+
+const setToken = (newToken) => {
+	token = `bearer ${newToken}`;
+};
 
 const getFavourites = async (id) => {
-	const config =
-	{
+	const config = {
 		headers: { Authorization: token },
-	}
-	const res = await axios.get(`${baseUrl}/favourites/${id}`, config)
-	return res.data
-}
+	};
+	const res = await axios.get(`${baseUrl}/favourites/${id}`, config);
+	return res.data;
+};
 
 // const getTopLists = async (details) => {
 //   const config =
@@ -29,48 +33,50 @@ const getFavourites = async (id) => {
 // }
 
 const postFavourite = async (film, user) => {
-  const config =
-  {
-    headers: { Authorization: token },
-  }
+	const config = {
+		headers: { Authorization: token },
+	};
 
-  const filmObj =
-  {
-    ...film,
-	  watched: false,
-    
-  }
-  const res = await axios.post(`${baseUrl}/favourites/${user}`, filmObj, config)
-  return res.data
-}
+	const filmObj = {
+		...film,
+		watched: false,
+	};
+	const res = await axios.post(
+		`${baseUrl}/favourites/${user}`,
+		filmObj,
+		config
+	);
+	return res.data;
+};
 
 const removeFavourite = async (id) => {
-  const config =
-  {
-    headers: { Authorization: token },
-  }
-  
-  const res = await axios.delete(`${baseUrl}/favourites/${id}`, config)
-  return res.data
-}
+	const config = {
+		headers: { Authorization: token },
+	};
+
+	const res = await axios.delete(`${baseUrl}/favourites/${id}`, config);
+	return res.data;
+};
 
 const putRating = async (id, rating) => {
-  const config =
-  {
-    headers: { Authorization: token },
-  }
+	const config = {
+		headers: { Authorization: token },
+	};
 
-  const res = await axios.post(`${baseUrl}/update/rating`, {id, rating}, config)
-  return res.data
-}
+	const res = await axios.post(
+		`${baseUrl}/update/rating`,
+		{ id, rating },
+		config
+	);
+	return res.data;
+};
 const setWatched = async (id) => {
-  const config =
-  {
-    headers: { Authorization: token },
-  }
-  const res = await axios.post(`${baseUrl}/update/watched`, {id}, config)
-  return res.data
-}
+	const config = {
+		headers: { Authorization: token },
+	};
+	const res = await axios.post(`${baseUrl}/update/watched`, { id }, config);
+	return res.data;
+};
 
 // const addTopList = async (details) => {
 //   const config =
@@ -105,5 +111,5 @@ export default {
 	postFavourite,
 	removeFavourite,
 	putRating,
-  setWatched
-}
+	setWatched,
+};
